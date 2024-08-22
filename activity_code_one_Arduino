@@ -1,5 +1,5 @@
 
-link de tinkercad: "https://www.tinkercad.com/things/6eFkqYSBI0N-os-arduino"
+link de tinkercad: https://www.tinkercad.com/things/6eFkqYSBI0N-os-arduino
 
 const int luzVerde = 13;
 const int luzRoja = 12;
