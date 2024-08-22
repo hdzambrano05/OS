@@ -1,0 +1,105 @@
+
+link de tinkercad: "https://www.tinkercad.com/things/6eFkqYSBI0N-os-arduino"
+
+const int luzVerde = 13;
+const int luzRoja = 12;
+const int luzAmarilla = 11;
+
+bool estadoLuzVerde = false;   // Estado inicial de la luz verde (apagada)
+bool estadoLuzRoja = false;    // Estado inicial de la luz roja (apagada)
+bool estadoLuzAmarilla = false; // Estado inicial de la luz amarilla (apagada)
+
+void setup() {
+  pinMode(luzVerde, OUTPUT);
+  pinMode(luzRoja, OUTPUT);
+  pinMode(luzAmarilla, OUTPUT);
+
+  Serial.begin(9600);
+}
+
+void loop() {
+  if (Serial.available()) {
+    char opcion = Serial.read();  
+    int c = 0;  
+
+    switch (opcion) {
+      case '1':
+        alternarLuz(luzVerde, estadoLuzVerde);
+        break;
+      case '2':
+        alternarLuz(luzVerde, estadoLuzVerde);
+        break;
+      case '3':
+        alternarLuz(luzRoja, estadoLuzRoja);
+        break;
+      case '4':
+        alternarLuz(luzRoja, estadoLuzRoja);
+        break;
+      case '5':
+        alternarLuz(luzAmarilla, estadoLuzAmarilla);
+        break;
+      case '6':
+        alternarLuz(luzAmarilla, estadoLuzAmarilla);
+        break;
+      case '7':
+        encenderTodasLasLuces();
+        break;
+      case '8':
+        apagarTodasLasLuces();
+        break;
+      case '9':
+        Serial.println("Ingrese el número de parpadeos:");
+        while (!Serial.available()); 
+        c = Serial.parseInt();
+        modoIntermitente(c);
+        break;
+      default:
+        Serial.println("Opción no válida. Introduzca un número del 1 al 9.");
+        break;
+    }
+  }
+}
+
+void alternarLuz(int luz, bool &estadoLuz) {
+  if (estadoLuz) {
+    apagarLuz(luz);
+  } else {
+    encenderLuz(luz);
+  }
+  estadoLuz = !estadoLuz; 
+}
+
+void encenderLuz(int luz) {
+  digitalWrite(luz, HIGH);
+  Serial.println("Luz encendida.");
+}
+
+void apagarLuz(int luz) {
+  digitalWrite(luz, LOW);
+  Serial.println("Luz apagada.");
+}
+
+void encenderTodasLasLuces() {
+  encenderLuz(luzVerde);
+  encenderLuz(luzRoja);
+  encenderLuz(luzAmarilla);
+  Serial.println("Todas las luces encendidas.");
+}
+
+void apagarTodasLasLuces() {
+  apagarLuz(luzVerde);
+  apagarLuz(luzRoja);
+  apagarLuz(luzAmarilla);
+  Serial.println("Todas las luces apagadas.");
+}
+
+void modoIntermitente(int c) {
+  for (int i = 0; i < c; i++) {  
+    encenderTodasLasLuces();
+    delay(500); 
+    apagarTodasLasLuces();
+    delay(500);  
+  }
+  Serial.println("Modo intermitente completado.");
+}
+
