@@ -47,72 +47,51 @@ void loop() {
 
     int statu = digitalRead(SWITCH_1);
 
-    switch(statu){
 
-        case 1: 
-            // El semaforo 1 esta en verde, los semaforos 2 y 3 estan en rojo
-            Serial.println("El semaforo 1 esta en verde, los semaforos 2 y 3 estan en rojo.");
-            trafic_1(); // Manejar el semaforo 1
-            led2_colors(255, 0, 0); // Configurar el semaforo 2 en rojo
-            led3_colors(255, 0, 0); // Configurar el semaforo 3 en rojo
-            delay(1000); // Esperar antes de cambiar al siguiente semaforo
-
-            // El semaforo 2 esta en verde, los semaforos 1 y 3 estan en rojo
-            Serial.println("El semaforo 2 esta en verde, los semaforos 1 y 3 estan en rojo.");
-            trafic_2(); // Manejar el semaforo 2
-            led1_colors(255, 0, 0); // Configurar el semaforo 1 en rojo
-            led3_colors(255, 0, 0); // Configurar el semaforo 3 en rojo
-            delay(1000); // Esperar antes de cambiar al siguiente semaforo
-
-            // El semaforo 3 esta en verde, los semaforos 1 y 2 estan en rojo
-            Serial.println("El semaforo 3 esta en verde, los semaforos 1 y 2 estan en rojo.");
-            trafic_3(); // Manejar el semaforo 3
-            led1_colors(255, 0, 0); // Configurar el semaforo 1 en rojo
-            led2_colors(255, 0, 0); // Configurar el semaforo 2 en rojo
-            delay(1000); // Esperar antes de volver al primer semaforo
-
-            break;
-
-        default:
-            Serial.println("El interruptor está apagado. Los LEDs parpadean en amarillo.");
-            flash_light();
-    }
-  
-  		
-    /*
-    if (digitalRead(SWITCH_1) == HIGH){
-         // El semaforo 1 esta en verde, los semaforos 2 y 3 estan en rojo
-        Serial.println("El semaforo 1 esta en verde, los semaforos 2 y 3 estan en rojo.");
-        trafic_1(); // Manejar el semaforo 1
-        led2_colors(255, 0, 0); // Configurar el semaforo 2 en rojo
-        led3_colors(255, 0, 0); // Configurar el semaforo 3 en rojo
-        delay(1000); // Esperar antes de cambiar al siguiente semaforo
-
-        // El semaforo 2 esta en verde, los semaforos 1 y 3 estan en rojo
-        Serial.println("El semaforo 2 esta en verde, los semaforos 1 y 3 estan en rojo.");
-        trafic_2(); // Manejar el semaforo 2
-        led1_colors(255, 0, 0); // Configurar el semaforo 1 en rojo
-        led3_colors(255, 0, 0); // Configurar el semaforo 3 en rojo
-        delay(1000); // Esperar antes de cambiar al siguiente semaforo
-
-        // El semaforo 3 esta en verde, los semaforos 1 y 2 estan en rojo
-        Serial.println("El semaforo 3 esta en verde, los semaforos 1 y 2 estan en rojo.");
-        trafic_3(); // Manejar el semaforo 3
-        led1_colors(255, 0, 0); // Configurar el semaforo 1 en rojo
-        led2_colors(255, 0, 0); // Configurar el semaforo 2 en rojo
-        delay(1000); // Esperar antes de volver al primer semaforo
-    }else{
-       Serial.println("El interruptor está apagado. Los LEDs parpadean en amarillo.");
-        led1_colors(0, 0, 0);
-        led2_colors(0, 0, 0);
-        led3_colors(0, 0, 0);
-      	flash_light();
-    }
-
-    */
     
-   
+    if (statu == HIGH) {
+        while (digitalRead(SWITCH_1) == HIGH) {
+            
+          	
+          	if (digitalRead(SWITCH_1) == LOW) break;
+          
+            Serial.println("El semaforo 1 esta en verde, los semaforos 2 y 3 estan en rojo.");
+            trafic_1(); 
+            led2_colors(255, 0, 0); 
+            led3_colors(255, 0, 0); 
+            delay(1000);
+
+            // Verificar si el interruptor cambio a apagado
+            if (digitalRead(SWITCH_1) == LOW) break;
+
+           
+            Serial.println("El semaforo 2 esta en verde, los semaforos 1 y 3 estan en rojo.");
+            trafic_2(); 
+            led1_colors(255, 0, 0); 
+            led3_colors(255, 0, 0); 
+            delay(1000);
+
+            // Verificar si el interruptor cambio a apagado
+            if (digitalRead(SWITCH_1) == LOW) break;
+
+            
+            Serial.println("El semaforo 3 esta en verde, los semaforos 1 y 2 estan en rojo.");
+            trafic_3(); 
+            led1_colors(255, 0, 0); 
+            led2_colors(255, 0, 0); 
+            delay(1000);
+
+            // Verificar si el interruptor cambio a apagado
+            if (digitalRead(SWITCH_1) == LOW) break;
+        	}
+        }else {
+        Serial.println("El interruptor está apagado. Los LEDs parpadean en amarillo.");
+        flash_light();
+        
+    }
 }
+       
+        
 
 // Crear funciones
 void led1_colors(int r, int g, int b) {
@@ -160,7 +139,7 @@ void trafic_3() {
 }
 
 void flash_light (){
-    for (int i = 0; i < 10; i++) { 
+    for (int i = 0; i < 2; i++) { 
 
         led1_colors(255, 0, 255);
         led2_colors(255, 0, 255);
