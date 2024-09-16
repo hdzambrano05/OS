@@ -1,0 +1,172 @@
+/*
+    Arduino Sketch: Traffic Light
+    Developer: Harold Zambrano
+    Date: 14/03/2024
+ */
+
+// Declarar variables
+// LED 1
+int LED1_RED = 5;
+int LED1_GREEN = 6;
+int LED1_BLUE = 7;
+
+// LED 2
+int LED2_RED = 8;
+int LED2_GREEN = 9;
+int LED2_BLUE = 10;
+
+// LED 3
+int LED3_RED = 11;
+int LED3_GREEN = 12;
+int LED3_BLUE = 13;
+
+//switch
+#define SWITCH_1 2
+
+void setup() {
+    pinMode(LED1_RED, OUTPUT);
+    pinMode(LED1_GREEN, OUTPUT);
+    pinMode(LED1_BLUE, OUTPUT);
+
+    pinMode(LED2_RED, OUTPUT);
+    pinMode(LED2_GREEN, OUTPUT);
+    pinMode(LED2_BLUE, OUTPUT);
+
+    pinMode(LED3_RED, OUTPUT);
+    pinMode(LED3_GREEN, OUTPUT);
+    pinMode(LED3_BLUE, OUTPUT);
+  
+    pinMode(SWITCH_1, INPUT);
+  
+   Serial.begin(9600);
+}
+
+void loop() {
+
+    int statu = digitalRead(SWITCH_1);
+
+    switch(statu){
+
+        case 1: 
+            // El semaforo 1 esta en verde, los semaforos 2 y 3 estan en rojo
+            Serial.println("El semaforo 1 esta en verde, los semaforos 2 y 3 estan en rojo.");
+            trafic_1(); // Manejar el semaforo 1
+            led2_colors(255, 0, 0); // Configurar el semaforo 2 en rojo
+            led3_colors(255, 0, 0); // Configurar el semaforo 3 en rojo
+            delay(1000); // Esperar antes de cambiar al siguiente semaforo
+
+            // El semaforo 2 esta en verde, los semaforos 1 y 3 estan en rojo
+            Serial.println("El semaforo 2 esta en verde, los semaforos 1 y 3 estan en rojo.");
+            trafic_2(); // Manejar el semaforo 2
+            led1_colors(255, 0, 0); // Configurar el semaforo 1 en rojo
+            led3_colors(255, 0, 0); // Configurar el semaforo 3 en rojo
+            delay(1000); // Esperar antes de cambiar al siguiente semaforo
+
+            // El semaforo 3 esta en verde, los semaforos 1 y 2 estan en rojo
+            Serial.println("El semaforo 3 esta en verde, los semaforos 1 y 2 estan en rojo.");
+            trafic_3(); // Manejar el semaforo 3
+            led1_colors(255, 0, 0); // Configurar el semaforo 1 en rojo
+            led2_colors(255, 0, 0); // Configurar el semaforo 2 en rojo
+            delay(1000); // Esperar antes de volver al primer semaforo
+
+            break;
+
+        default:
+            Serial.println("El interruptor está apagado. Los LEDs parpadean en amarillo.");
+            flash_light();
+    }
+  
+  		
+    /*
+    if (digitalRead(SWITCH_1) == HIGH){
+         // El semaforo 1 esta en verde, los semaforos 2 y 3 estan en rojo
+        Serial.println("El semaforo 1 esta en verde, los semaforos 2 y 3 estan en rojo.");
+        trafic_1(); // Manejar el semaforo 1
+        led2_colors(255, 0, 0); // Configurar el semaforo 2 en rojo
+        led3_colors(255, 0, 0); // Configurar el semaforo 3 en rojo
+        delay(1000); // Esperar antes de cambiar al siguiente semaforo
+
+        // El semaforo 2 esta en verde, los semaforos 1 y 3 estan en rojo
+        Serial.println("El semaforo 2 esta en verde, los semaforos 1 y 3 estan en rojo.");
+        trafic_2(); // Manejar el semaforo 2
+        led1_colors(255, 0, 0); // Configurar el semaforo 1 en rojo
+        led3_colors(255, 0, 0); // Configurar el semaforo 3 en rojo
+        delay(1000); // Esperar antes de cambiar al siguiente semaforo
+
+        // El semaforo 3 esta en verde, los semaforos 1 y 2 estan en rojo
+        Serial.println("El semaforo 3 esta en verde, los semaforos 1 y 2 estan en rojo.");
+        trafic_3(); // Manejar el semaforo 3
+        led1_colors(255, 0, 0); // Configurar el semaforo 1 en rojo
+        led2_colors(255, 0, 0); // Configurar el semaforo 2 en rojo
+        delay(1000); // Esperar antes de volver al primer semaforo
+    }else{
+       Serial.println("El interruptor está apagado. Los LEDs parpadean en amarillo.");
+        led1_colors(0, 0, 0);
+        led2_colors(0, 0, 0);
+        led3_colors(0, 0, 0);
+      	flash_light();
+    }
+
+    */
+    
+   
+}
+
+// Crear funciones
+void led1_colors(int r, int g, int b) {
+    analogWrite(LED1_RED, r);
+    analogWrite(LED1_GREEN, g);
+    analogWrite(LED1_BLUE, b);
+}
+
+void led2_colors(int r, int g, int b) {
+    analogWrite(LED2_RED, r);
+    analogWrite(LED2_GREEN, g);
+    analogWrite(LED2_BLUE, b);
+}
+
+void led3_colors(int r, int g, int b) {
+    analogWrite(LED3_RED, r);
+    analogWrite(LED3_GREEN, g);
+    analogWrite(LED3_BLUE, b);
+}
+
+void trafic_1() {
+    led1_colors(255, 0, 0);
+    delay(2000);
+    led1_colors(255, 0, 255);
+    delay(2000);
+    led1_colors(0, 0, 255);
+    
+}
+
+void trafic_2() {
+    led2_colors(255, 0, 0);
+    delay(2000);
+    led2_colors(255, 0, 255);
+    delay(2000);
+    led2_colors(0, 0, 255);
+    
+}
+
+void trafic_3() {
+    led3_colors(255, 0, 0);
+    delay(2000);
+    led3_colors(255, 0, 255);
+    delay(2000);
+    led3_colors(0, 0, 255);
+}
+
+void flash_light (){
+    for (int i = 0; i < 10; i++) { 
+
+        led1_colors(255, 0, 255);
+        led2_colors(255, 0, 255);
+        led3_colors(255, 0, 255);
+        delay(500);
+        led1_colors(0, 0, 0);
+        led2_colors(0, 0, 0);
+        led3_colors(0, 0, 0);
+        delay(500);
+	}
+}
