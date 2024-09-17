@@ -15,4 +15,4 @@ To get started with the practical activities, follow these steps:
 1. **Clone the Repository**
 
    ```bash
-   git clone https://github.com/yourusername/yourrepo.git
+   git clone https://github.com/hdzambrano05/OS.git
